@@ -32,7 +32,7 @@
    - Once the application is running, you can access it in your web browser at `http://localhost:5000`.
 
 
-### Client setup
+## Client setup
 
 1. **Initialization**
    - Initialize the `License` class instance:
@@ -106,3 +106,10 @@ elif "banned" in status["status"]:
 else:
     print("Invalid or tampered response")
 ```
+
+## Screenshots
+<p float="left">
+  <a href="#Screenshots"><img src="https://github.com/Fadi002/pyauth/blob/main/imgs/login.png?raw=true" width="400"></img></a>
+  <a href="#Screenshots"><img src="https://github.com/Fadi002/pyauth/blob/main/imgs/home.png?raw=true" width="400"></img></a>
+  <a href="#Screenshots"><img src="https://github.com/Fadi002/pyauth/blob/main/imgs/license.png?raw=true" width="400"></img></a>
+</p>

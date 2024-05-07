@@ -104,7 +104,7 @@ username = input("Enter admin username to register it: ")
 password = input("Enter admin password to register it: ")
 if not os.path.exists("database/users.db"):
     Users().init()
-Users().add(username=username, passowrd=password, session_key=generate_string())
+Users().add(username=username, password=password, session_key=generate_string())
 
 print("Setup finished.")
 input("Press enter to exit\n")
