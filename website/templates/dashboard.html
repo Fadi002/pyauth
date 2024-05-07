@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyauth dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="static/js/main.js"></script>
+    <script src="static/js/dashboard.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <noscript>enable js so you can use this website</noscript>
+    <div id="loading-screen">
+        <div id="loading-spinner"></div>
+    </div>
+    <div id="notification-container" style="position:fixed;pointer-events:none;"></div>
+    <div id="popupContainer" class="popup-container">
+        <div class="popup frame" id="deletelicense" class="my-text form_container">
+            <span class="close-button">&times;</span>
+            <form>
+                <h2>Delete license</h2>
+                <label for="license">License:</label>
+                <input type="text" id="licenseinputdel" name="license" placeholder="Enter the license to delete" required>
+                <button class="buttons" id="deletelicensebtn">delete license</button>
+            </form>
+        </div>
+        <div class="popup frame" id="activelicense" class="my-text form_container">
+            <span class="close-button">&times;</span>
+            <form>
+                <h2>Active license</h2>
+                <label for="license">License:</label>
+                <input type="text" id="licenseinputactive" name="license" placeholder="Enter the license to active" required>
+                <button class="buttons" id="activelicensebtn">active license</button>
+            </form>
+        </div>
+        <div class="popup frame" id="banlicense" class="my-text form_container">
+            <span class="close-button">&times;</span>
+            <form>
+                <h2>Ban license</h2>
+                <label for="license">License:</label>
+                <input type="text" id="licenseinputban" name="license" placeholder="Enter the license to ban" required>
+                <button class="buttons" id="banlicensebtn">Ban license</button>
+            </form>
+        </div>
+        <div class="popup frame" id="suspendlicense" class="my-text form_container">
+            <span class="close-button">&times;</span>
+            <form>
+                <h2>Suspend license</h2>
+                <label for="license">License:</label>
+                <input type="text" id="licenseinputsuspend" name="license" placeholder="Enter the license to suspend" required>
+                <button class="buttons" id="suspendlicensebtn">suspend license</button>
+            </form>
+        </div>
+        <div class="popup frame" id="addlicense" class="my-text form_container">
+            <span class="close-button">&times;</span>
+            <form>
+                <h2>Add license</h2>
+                <label for="hwid">HWID: *</label>
+                <input type="text" id="hwid" name="hwid" required>
+
+                <label for="expiration">Expiration Date: *</label>
+                <select id="expiration" name="expiration">
+                    <option value="1day">1 Day</option>
+                    <option value="1week">1 Week</option>
+                    <option value="1month">1 Month</option>
+                    <option value="1year">1 Year</option>
+                    <option value="custom">Custom</option>
+                </select><br>
+                <input type="date" id="customExpiration" name="customExpiration" style="display: none;"><br>
+
+                <label for="licenseOwner">License Owner: *</label>
+                <input type="text" id="licenseOwner" name="licenseOwner" required>
+
+                <label for="status">Status: *</label><br>
+                <select id="status" name="status" required>
+                    <option value="active">Active</option>
+                    <option value="banned">Banned</option>
+                    <option value="suspended">Suspended</option>
+                </select><br>
+                <input type="submit" class="buttons" value="Add License" id="addlicensebtn">
+            </form>
+        </div>
+    </div>
+    <div class="sidebar">
+        <h3 class="my-text center-text">PYAUTH</h3>
+        <div class="makeline"></div>
+        <ul>
+            <li onclick="navigateTo('home')">
+                <div class="side-menu-container">
+                    <img class="sidebar-image" src="static/imgs/home.svg">
+                    <a style="font-size: 17px;">Home</a>
+                </div>
+            </li>
+            <li onclick="navigateTo('licenses')">
+                <div class="side-menu-container">
+                    <img class="sidebar-image" src="static/imgs/key.svg">
+                    <a style="font-size: 17px;">Licenses</a>
+                </div>
+        </ul>
+        <br>
+        <div class="makeline"></div>
+        <br>
+        <h4 class="my-text center">made by 0xmrpepe</h4>
+    </div>
+    <main>
+        <section id="home" class="active my-text">
+            <h1>dashboard - {{ username }}</h1>
+            <div class="info-cards-container">
+                <div class="card-info my-text">
+                    <img class="card-image" src="static/imgs/key.svg">
+                    <h2>licenses: {{ licenses_amount }}</h2>
+                </div>
+            </div>
+        </section>
+        <section id="licenses" class="my-text">
+            <div class="frame">
+                <h1 class="center-text">licenses</h1>
+                <div class="makeline"></div><br>
+                <form id="active">
+                    <label for="control_password">control password:</label>
+                    <input type="password" id="control_password" name="control_password" class="required" required>
+                </form>
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <button class="buttons" type="buttons" onclick="fetch_licenses()">Fetch licenses</button>
+                    <button class="buttons" type="buttons" id="popuphandler" data-popup-id="addlicense">add license</button>
+                    <button class="buttons" type="buttons" id="popuphandler" data-popup-id="deletelicense">delete license</button>
+                    <button class="buttons" type="buttons" id="popuphandler" data-popup-id="activelicense">active license</button>
+                    <button class="buttons" type="buttons" id="popuphandler" data-popup-id="suspendlicense">suspend license</button>
+                    <button class="buttons" type="buttons" id="popuphandler" data-popup-id="banlicense">ban license</button>
+                </div>
+                <div id="licenseContainer" class="license-container">
+                </div>
+                <br>
+                <div class="makeline"></div>
+                <h5 class="center-text">Note: any input with "*" means required</h5>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
